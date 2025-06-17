@@ -13,12 +13,8 @@ import org.lessons.java.spring_la_mia_pizzeria_relazioni.model.Pizza;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.web.server.ResponseStatusException;
-// import java.util.Optional;
-// import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.lessons.java.spring_la_mia_pizzeria_relazioni.model.SpecialOffer;
 
 @Controller
 @RequestMapping("/pizzas")
@@ -40,18 +36,6 @@ public class PizzasController {
         model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
-
-    // @GetMapping("/{id}")
-    //     public String pizzaDetail(Model model, @PathVariable("id") int id) {
-    //     Optional<Pizza> result = repository.findById(id);
-    //        if (result.isPresent()) {
-    //         Pizza pizzaFound = result.get();
-    //         model.addAttribute("pizza", pizzaFound);
-    //         return "pizzaDetail";
-    //     } else {
-    //         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza con ID " + id + " non trovata.");
-    //     }
-    // }    
     
     //SHOW
     @GetMapping("/{id}")
@@ -100,4 +84,14 @@ public class PizzasController {
         return "redirect:/pizzas";
     }
     
+    //NUOVA ENTITY Special Offers
+    @GetMapping("/{id}/special-offers")
+    public String specialOffer(@PathVariable Integer id, Model model) {
+        SpecialOffer specialOffer = new SpecialOffer();
+        specialOffer.setPizza(repository.findById(id).get());
+        model.addAttribute("specialOffer", specialOffer);
+        return "special-offers/create";
+    }
+    
+
 }

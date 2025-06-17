@@ -13,10 +13,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 @Table(name="pizzas")
 public class Pizza {
+
+    @OneToMany(mappedBy = "pizza")
+    private List<SpecialOffer> specialOffers;
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
@@ -79,6 +85,17 @@ public class Pizza {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+// getters e setters di Special Offers
+
+    public List<SpecialOffer> getSpecialOffer() {
+	return this.specialOffers;
+    }
+
+    public void setSpecialOffers(List<SpecialOffer> specialOffers) {
+        this.specialOffers = specialOffers;
+    }
+
 
 	@Override
 	public String toString(){

@@ -34,9 +34,14 @@
                                 <form action="@" th:action="@{'/pizzas/delete/{id}' (id=${pizza.id})}" method="post">
                                     <button class="btn btn-danger btn-sm" type="submit" id="submitButton">
                                         <i class="fas fa-trash-alt"></i>Cancella
-                                    </button> 
+                                    </button>
                                 </form>
-                            </td>                            
+                            </td>   
+                            <td class="align-middle">
+                                <button class="btn btn-warning btn-sm">
+                                        <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Aggiungi Sconto</a> 
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
