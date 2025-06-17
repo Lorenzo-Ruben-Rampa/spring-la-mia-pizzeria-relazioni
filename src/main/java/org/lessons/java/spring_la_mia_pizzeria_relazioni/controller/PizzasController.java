@@ -87,9 +87,11 @@ public class PizzasController {
     //NUOVA ENTITY Special Offers
     @GetMapping("/{id}/special-offers")
     public String specialOffer(@PathVariable Integer id, Model model) {
+        // Pizza pizza = repository.findById(id).orElseThrow(() -> new RuntimeException("Pizza not found")); // Good practice to handle Optional
         SpecialOffer specialOffer = new SpecialOffer();
         specialOffer.setPizza(repository.findById(id).get());
         model.addAttribute("specialOffer", specialOffer);
+        // model.addAttribute("pizza", pizza);
         return "special-offers/create";
     }
     

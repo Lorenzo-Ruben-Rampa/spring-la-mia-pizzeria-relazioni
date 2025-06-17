@@ -1,5 +1,6 @@
 package org.lessons.java.spring_la_mia_pizzeria_relazioni.model;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -88,7 +89,7 @@ public class Pizza {
 
 // getters e setters di Special Offers
 
-    public List<SpecialOffer> getSpecialOffer() {
+    public List<SpecialOffer> getSpecialOffers() {
 	return this.specialOffers;
     }
 
@@ -96,6 +97,32 @@ public class Pizza {
         this.specialOffers = specialOffers;
     }
 
+//METODO PER GLI SCONTI
+
+        public BigDecimal getEffectivePrice() {
+        BigDecimal currentPrice = this.price; 
+        LocalDate today = LocalDate.now();    
+        SpecialOffer activeOffer = null;
+
+        if (this.specialOffers != null && !this.specialOffers.isEmpty()) {
+            for (SpecialOffer offer : this.specialOffers) {
+              
+                if (!offer.getStartDate().isAfter(today) && !offer.getEndDate().isBefore(today)) {
+                    activeOffer = offer; 
+                    break; 
+                }
+            }
+        }
+        // Applica lo sconto se c'è un'offerta attiva
+        if (activeOffer != null && activeOffer.getDiscount() > 0) {
+            // Conversione BigDecimal in percentuale
+            BigDecimal discountPercentage = new BigDecimal(activeOffer.getDiscount())
+                                                .divide(new BigDecimal(100), 2, java.math.RoundingMode.HALF_UP);
+            return currentPrice.multiply(BigDecimal.ONE.subtract(discountPercentage)).setScale(2, java.math.RoundingMode.HALF_UP);
+        } else {
+            return currentPrice;
+        }
+    }
 
 	@Override
 	public String toString(){

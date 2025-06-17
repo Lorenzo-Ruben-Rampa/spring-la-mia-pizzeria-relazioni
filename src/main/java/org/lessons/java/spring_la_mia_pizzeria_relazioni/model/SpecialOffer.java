@@ -70,6 +70,14 @@ public class SpecialOffer {
         this.title = title;
     }
 
+    public int getDiscount() {
+        return this.discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
     public LocalDate getStartDate() {
         return this.startDate;
     }
