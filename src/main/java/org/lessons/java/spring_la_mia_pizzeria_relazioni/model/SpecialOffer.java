@@ -26,9 +26,9 @@ public class SpecialOffer {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message="Il nome non può essere vuoto")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Il nome può contenere solo lettere e spazi.")
-    @Size(max = 100, message = "Il nome non può superare i 100 caratteri.")
+    @NotEmpty(message="Il titolo non può essere vuoto")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Il titolo può contenere solo lettere e spazi.")
+    @Size(max = 100, message = "Il titolo non può superare i 100 caratteri.")
     private String title;
 
     @NotNull(message="Il valore dello sconto non può essere vuoto")

@@ -13,18 +13,53 @@
     <main class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1 class="text-center mb-4">Pizza <span th:text="${pizza.name}"></span></h1>
+                <h1 class="text-center mb-4 text-danger">Pizza <span th:text="${pizza.name}"></span></h1>
 
                 <div class="card mb-3">
                     <div class="row g-0 d-flex justify-content-center">
                         <div class="col-md-12">
                             <img th:src="${pizza.urlImage}" th:alt="${pizza.name}" class="img-fluid rounded-start">
                         </div>
-                        <div class="col-md-8">
-                            <div class="card-body mt-5 mb-3">
-                                <p class="card-text"><strong>Descrizione:</strong> <span th:text="${pizza.description}"></span></p>
-                                <p class="card-text fs-3 text-center"><strong>Prezzo:</strong> <span th:text="${pizza.price}"></span> &euro;</p>
-                                <p class="text-center"><a th:href="@{/pizzas}" class="btn btn-primary mt-3">Torna al Menu</a></p>
+                        <div class="d-flex justify-content-space-between">
+                            <div class="col-md-6">
+                                 <div class="card-body mt-5 mb-3 d-flex justify-content-center flex-wrap fixed-h">
+                                    <h3 class="mb-5 text-warning">Elenco Offerte Speciali Attive:</h3>
+                                    <ul>
+                                        <li class="mb-3">Offer 1       
+                                            <span class="space-left">
+                                                <button class="btn btn-warning btn-sm">
+                                                    <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a> 
+                                                </button>
+                                            </span> 
+                                        </li>
+                                        <li class="mb-3">Offer 2
+                                            <span class="space-left">                                            
+                                                <button class="btn btn-warning btn-sm">
+                                                    <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a> 
+                                                </button>
+                                            </span>
+                                        </li>
+                                        <li class="mb-3">Offer 3
+                                            <span class="space-left">                                           
+                                                <button class="btn btn-warning btn-sm">
+                                                    <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a> 
+                                                </button> 
+                                            </span>
+                                        </li>
+                                    </ul>
+                                 </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body mt-5 mb-3">
+                                    <p class="card-text"><strong>Descrizione:</strong> <span th:text="${pizza.description}"></span></p>
+                                    <p class="card-text fs-3 text-center text-warning"><strong>Prezzo:</strong> <span th:text="${pizza.price}"></span> &euro;</p>
+                                    <p class="text-center"><a th:href="@{/pizzas}" class="btn btn-primary mt-3">Torna al Menu</a></p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-warning btn-sm">
+                                            <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Crea nuova offerta speciale</a> 
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

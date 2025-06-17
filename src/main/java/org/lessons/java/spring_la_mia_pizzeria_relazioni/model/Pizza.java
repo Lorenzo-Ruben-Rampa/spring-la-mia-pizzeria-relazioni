@@ -34,6 +34,7 @@ public class Pizza {
     private String name;
 
     @Lob
+    @Column(nullable=false)
     @NotBlank(message = "La descrizione non può essere vuota.")
     @Size(max = 455, message = "La descrizione non può superare i 455 caratteri.")
     private String description;

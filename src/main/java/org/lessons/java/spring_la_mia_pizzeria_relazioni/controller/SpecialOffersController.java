@@ -21,7 +21,7 @@ public class SpecialOffersController {
     public String store(@Valid @ModelAttribute("specialOffer") SpecialOffer formSpecialOffer, BindingResult bindingResult, Model model) {
 
     if (bindingResult.hasErrors()) {
-        // model.addAttribute("pizza", formSpecialOffer.getPizza());
+        // model.addAttribute("pizza", formSpecialOffer.getPizza()); //DA TOGLIERE SE FUNZIONA
         return "special-offers/create";
     }
     repository.save(formSpecialOffer);              

@@ -7,6 +7,14 @@ ul {
     list-style: none;
 }
 
+.space-left {
+    margin-left: 2em;
+}
+
+.fixed-h {
+    height: 289px;
+}
+
 .hero-section {
     background-size: cover;
     background-position: center;
