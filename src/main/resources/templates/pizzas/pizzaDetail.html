@@ -13,8 +13,8 @@
     <main class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1 class="text-center mb-4 text-danger">Pizza <span th:text="${pizza.name}"></span></h1>
-                <div class="card mb-3">
+                <h1 class="text-center text-danger">Pizza <span th:text="${pizza.name}"></span></h1>
+                <div class="card">
                     <div class="row g-0 d-flex justify-content-center">
                         <div class="col-md-12">
                             <img th:src="${pizza.urlImage}" th:alt="${pizza.name}">
@@ -25,13 +25,18 @@
                                     <h3 class="mb-5 text-warning">Elenco Offerte Speciali Attive:</h3>
                                     <ul class="list-unstyled"> 
                                         <li th:with="activeOffer=${pizza.getActiveSpecialOffer()}">
-                                          <div th:if="${activeOffer != null}" class="mb-3 d-flex justify-content-center flex-wrap">
-                                                <p>
+                                            <div th:if="${activeOffer != null}" class="mb-3 d-flex justify-content-center flex-wrap">
+                                                <p class="fw-bold fs-2 text-center">
                                                     <span th:text="${activeOffer.title}"></span> (Sconto: <span th:text="${activeOffer.discount}"></span>%)
                                                 </p>
-                                                <button class="btn btn-warning btn-sm">
-                                                    <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a>
-                                                </button>
+                                                <div>
+                                                    <button class="btn btn-warning btn-sm">
+                                                        <a th:href="@{/special-offers/edit/{id}(id=${activeOffer.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a>
+                                                    </button>
+                                                    <form th:action="@{/special-offers/delete/{id}(id=${activeOffer.id})}" method="post" class="d-inline-block">
+                                                        <button type="submit" class="btn btn-danger btn-sm p-2" onclick="return confirm('Sei sicuro di voler eliminare questa offerta?')">Elimina Offerta</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                             <div th:unless="${activeOffer != null}">
                                                 <p>Nessuna offerta speciale attiva per questa pizza.</p>

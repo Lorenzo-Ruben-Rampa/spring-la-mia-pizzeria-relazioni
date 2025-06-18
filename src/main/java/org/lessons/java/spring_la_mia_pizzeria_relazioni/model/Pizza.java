@@ -116,32 +116,6 @@ public class Pizza {
         return null;
     }
 
-// //METODO PER GLI SCONTI
-
-//     public BigDecimal getEffectivePrice() {
-//         LocalDate today = LocalDate.now();    
-//         SpecialOffer activeOffer = null;
-//         if (isSpecialOffer()) { 
-//             for (SpecialOffer offer : this.specialOffers) {
-//                 if (!offer.getStartDate().isAfter(today) && !offer.getEndDate().isBefore(today)) {
-//                 activeOffer = offer; 
-//                 break; 
-//                 }
-//             }
-//         }
-//         // Applica lo sconto SOLO se è stata trovata un'offerta attiva E lo sconto è valido (> 0)
-//             if (activeOffer != null && activeOffer.getDiscount() > 0) {
-//                 BigDecimal discountPercentage = new BigDecimal(activeOffer.getDiscount())
-//                                             .divide(new BigDecimal(100), 2, java.math.RoundingMode.HALF_UP);
-                
-//                 BigDecimal discountedPrice = this.price.multiply(BigDecimal.ONE.subtract(discountPercentage));
-                
-//                 return discountedPrice.setScale(2, java.math.RoundingMode.HALF_UP);
-//             } else {
-//                 return this.price;
-//             }
-//     }
-
     // METODO PER GLI SCONTI (senza Optional)
     public BigDecimal getEffectivePrice() {
         SpecialOffer activeOffer = getActiveSpecialOffer(); // Ottiene l'offerta attiva (potrebbe essere null)
