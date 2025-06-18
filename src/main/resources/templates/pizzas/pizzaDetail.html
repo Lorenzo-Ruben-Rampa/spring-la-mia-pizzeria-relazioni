@@ -14,37 +14,28 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h1 class="text-center mb-4 text-danger">Pizza <span th:text="${pizza.name}"></span></h1>
-
                 <div class="card mb-3">
                     <div class="row g-0 d-flex justify-content-center">
                         <div class="col-md-12">
-                            <img th:src="${pizza.urlImage}" th:alt="${pizza.name}" class="img-fluid rounded-start">
+                            <img th:src="${pizza.urlImage}" th:alt="${pizza.name}">
                         </div>
                         <div class="d-flex justify-content-space-between">
                             <div class="col-md-6">
                                  <div class="card-body mt-5 mb-3 d-flex justify-content-center flex-wrap fixed-h">
                                     <h3 class="mb-5 text-warning">Elenco Offerte Speciali Attive:</h3>
-                                    <ul>
-                                        <li class="mb-3">Offer 1       
-                                            <span class="space-left">
+                                    <ul class="list-unstyled"> 
+                                        <li th:with="activeOffer=${pizza.getActiveSpecialOffer()}">
+                                          <div th:if="${activeOffer != null}" class="mb-3 d-flex justify-content-center flex-wrap">
+                                                <p>
+                                                    <span th:text="${activeOffer.title}"></span> (Sconto: <span th:text="${activeOffer.discount}"></span>%)
+                                                </p>
                                                 <button class="btn btn-warning btn-sm">
-                                                    <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a> 
+                                                    <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a>
                                                 </button>
-                                            </span> 
-                                        </li>
-                                        <li class="mb-3">Offer 2
-                                            <span class="space-left">                                            
-                                                <button class="btn btn-warning btn-sm">
-                                                    <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a> 
-                                                </button>
-                                            </span>
-                                        </li>
-                                        <li class="mb-3">Offer 3
-                                            <span class="space-left">                                           
-                                                <button class="btn btn-warning btn-sm">
-                                                    <a th:href="@{/pizzas/{id}/special-offers(id=${pizza.id})}" class="btn btn-warning btn-sm">Modifica Offerta</a> 
-                                                </button> 
-                                            </span>
+                                            </div>
+                                            <div th:unless="${activeOffer != null}">
+                                                <p>Nessuna offerta speciale attiva per questa pizza.</p>
+                                            </div>
                                         </li>
                                     </ul>
                                  </div>

@@ -16,12 +16,13 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.OneToMany;
 import java.util.List;
+import jakarta.persistence.FetchType;
 
 @Entity
 @Table(name="pizzas")
 public class Pizza {
 
-    @OneToMany(mappedBy = "pizza")
+    @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)   
     private List<SpecialOffer> specialOffers;
 
     @Id
@@ -98,32 +99,64 @@ public class Pizza {
         this.specialOffers = specialOffers;
     }
 
-//METODO PER GLI SCONTI
+    // NUOVO METODO: Verifica se la pizza HA QUALSIASI OFFERTA SPECIALE (attiva o meno)
+    public boolean isSpecialOffer () {
+        return this.specialOffers != null && !this.specialOffers.isEmpty();
+    }
 
-        public BigDecimal getEffectivePrice() {
-        BigDecimal currentPrice = this.price; 
-        LocalDate today = LocalDate.now();    
-        SpecialOffer activeOffer = null;
-
-        if (this.specialOffers != null && !this.specialOffers.isEmpty()) {
+    public SpecialOffer getActiveSpecialOffer() {
+        LocalDate today = LocalDate.now();
+        if (isSpecialOffer()) { 
             for (SpecialOffer offer : this.specialOffers) {
-              
-                if (!offer.getStartDate().isAfter(today) && !offer.getEndDate().isBefore(today)) {
-                    activeOffer = offer; 
-                    break; 
+                if (!today.isBefore(offer.getStartDate()) && !today.isAfter(offer.getEndDate())) {
+                    return offer;
                 }
             }
         }
-        // Applica lo sconto se c'è un'offerta attiva
-        if (activeOffer != null && activeOffer.getDiscount() > 0) {
-            // Conversione BigDecimal in percentuale
-            BigDecimal discountPercentage = new BigDecimal(activeOffer.getDiscount())
-                                                .divide(new BigDecimal(100), 2, java.math.RoundingMode.HALF_UP);
-            return currentPrice.multiply(BigDecimal.ONE.subtract(discountPercentage)).setScale(2, java.math.RoundingMode.HALF_UP);
-        } else {
-            return currentPrice;
-        }
+        return null;
     }
+
+// //METODO PER GLI SCONTI
+
+//     public BigDecimal getEffectivePrice() {
+//         LocalDate today = LocalDate.now();    
+//         SpecialOffer activeOffer = null;
+//         if (isSpecialOffer()) { 
+//             for (SpecialOffer offer : this.specialOffers) {
+//                 if (!offer.getStartDate().isAfter(today) && !offer.getEndDate().isBefore(today)) {
+//                 activeOffer = offer; 
+//                 break; 
+//                 }
+//             }
+//         }
+//         // Applica lo sconto SOLO se è stata trovata un'offerta attiva E lo sconto è valido (> 0)
+//             if (activeOffer != null && activeOffer.getDiscount() > 0) {
+//                 BigDecimal discountPercentage = new BigDecimal(activeOffer.getDiscount())
+//                                             .divide(new BigDecimal(100), 2, java.math.RoundingMode.HALF_UP);
+                
+//                 BigDecimal discountedPrice = this.price.multiply(BigDecimal.ONE.subtract(discountPercentage));
+                
+//                 return discountedPrice.setScale(2, java.math.RoundingMode.HALF_UP);
+//             } else {
+//                 return this.price;
+//             }
+//     }
+
+    // METODO PER GLI SCONTI (senza Optional)
+    public BigDecimal getEffectivePrice() {
+        SpecialOffer activeOffer = getActiveSpecialOffer(); // Ottiene l'offerta attiva (potrebbe essere null)
+
+    // Controlla se activeOffer NON è null E se lo sconto è valido
+    if (activeOffer != null) {
+    Integer discount = activeOffer.getDiscount();
+    if (discount != null && discount > 0) { // Qui 'discount' è Integer, ma 'discount > 0' funziona per auto-unboxing sicuro
+        BigDecimal discountPercentage = new BigDecimal(discount).divide(new BigDecimal(100), 2, java.math.RoundingMode.HALF_UP);
+        BigDecimal discountedPrice = this.price.multiply(BigDecimal.ONE.subtract(discountPercentage));
+        return discountedPrice.setScale(2, java.math.RoundingMode.HALF_UP);
+    }
+    }
+        return this.price;
+        }
 
 	@Override
 	public String toString(){
