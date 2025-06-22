@@ -14,13 +14,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.lessons.java.spring_la_mia_pizzeria_relazioni.model.SpecialOffer;
+import org.lessons.java.spring_la_mia_pizzeria_relazioni.repository.IngredientsRepository;
 
 @Controller
 @RequestMapping("/pizzas")
 public class PizzasController {
 
+    private final IngredientsRepository ingredientsRepository;
+
     @Autowired
     private PizzasRepository repository;
+
+    PizzasController(IngredientsRepository ingredientsRepository) {
+        this.ingredientsRepository = ingredientsRepository;
+    }
 
     //INDEX
     @GetMapping
@@ -46,6 +53,7 @@ public class PizzasController {
     //CREATE
     @GetMapping("/create")
     public String create(Model model) {
+        model.addAttribute("ingredients", ingredientsRepository.findAll());
         model.addAttribute("pizza", new Pizza());  
         return "/pizzas/create";
     }
@@ -54,6 +62,7 @@ public class PizzasController {
     @PostMapping("/create")
     public String store (@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredients", ingredientsRepository.findAll());
             return "/pizzas/create";
         }
         repository.save(formPizza);
@@ -64,12 +73,14 @@ public class PizzasController {
     @GetMapping("/edit/{id}")
     public String edit (@PathVariable("id") Integer id, Model model) {
         model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("ingredients", ingredientsRepository.findAll());
         return "/pizzas/edit";
     }
 
     @PostMapping("/edit/{id}")
     public String update (@PathVariable("id") Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredients", ingredientsRepository.findAll());
             return "/pizzas/edit";
         }
         repository.save(formPizza);
@@ -91,6 +102,4 @@ public class PizzasController {
         model.addAttribute("specialOffer", specialOffer);
         return "special-offers/create";
     }
-    
-
 }

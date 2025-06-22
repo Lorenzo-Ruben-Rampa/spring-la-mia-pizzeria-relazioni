@@ -63,6 +63,15 @@
                                 </ul>
                             </div>                       
                         </li>
+                        <li>
+                            <label class="mb-2">Seleziona gli ingredienti:</label>
+                            <ul class="list-unstyled d-flex flex-row flex-wrap mb-3 self-center"> 
+                                <li th:each="ingredient : ${ingredients}" class="single-ingredient form-check me-3 small-container">
+                                    <input type="checkbox" th:id="|ingredient-${ingredient.id}|" th:field="${pizza.ingredients}" th:value="${ingredient.id}" class="form-check-input">
+                                    <label th:for="|ingredient-${ingredient.id}" class="form-check-label" th:text="${ingredient.name}" />
+                                </li>
+                            </ul>                            
+                        </li>
                     </ul>    
                     <div class="text-center mt-4 mb-5">
                         <button type="submit" class="btn btn-primary me-2">Salva Modifiche</button>

@@ -15,8 +15,11 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import java.util.List;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 @Table(name="pizzas")
@@ -24,6 +27,14 @@ public class Pizza {
 
     @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)   
     private List<SpecialOffer> specialOffers;
+
+    @ManyToMany()
+    @JoinTable(
+        name = "pizza_ingredient",
+        joinColumns = @JoinColumn(name = "pizza_id"),
+        inverseJoinColumns = @JoinColumn (name = "ingredient_id")
+    )
+    private List<Ingredient> ingredients;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -98,6 +109,16 @@ public class Pizza {
     public void setSpecialOffers(List<SpecialOffer> specialOffers) {
         this.specialOffers = specialOffers;
     }
+
+// getters e setters di Ingredients
+    public List<Ingredient> getIngredients() {
+        return this.ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
 
     // NUOVO METODO: Verifica se la pizza HA QUALSIASI OFFERTA SPECIALE (attiva o meno)
     public boolean isSpecialOffer () {

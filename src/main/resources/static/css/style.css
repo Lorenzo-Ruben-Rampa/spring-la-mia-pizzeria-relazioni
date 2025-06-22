@@ -11,10 +11,15 @@ ul {
     margin-left: 2em;
 }
 
-.fixed-h {
-    height: 289px;
+.fixed {
+    width: 600px;
+    height: 400px;
 }
 
+fixed-h {
+    height: 500px;
+}
+        
 .hero-section {
     background-size: cover;
     background-position: center;
@@ -42,6 +47,15 @@ header {
         background-position: center;  
 }
 
+.self-center {
+position:relative;
+left: 15%;
+}
+
+.small-container {
+    max-width: 200px;
+}
+
 .table {
     color: white;
 }
@@ -62,6 +76,10 @@ td {
 
 .card-body {
     background-color:rgb(255, 72, 0);
+}
+
+.orange{
+        background-color:rgb(255, 72, 0);
 }
 
 .card {
